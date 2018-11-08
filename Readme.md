@@ -1,5 +1,7 @@
 # Agenda - Go Version for Service Computing Course
 
+![build status](https://travis-ci.org/owtotwo/agenda.svg?branch=master)
+
 ## Team member
 
 ``` info
