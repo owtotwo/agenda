@@ -11,10 +11,8 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "agenda",
-	Short: "agenda <cmd> [<option>]",
-	Long: `Agenda system rewritten with golang. 
-This commline tools will help you manage your meetings. 
-For more detail, please use \'agenda help\' to begin.`,
+	Short: "Agenda system rewritten with golang. ",
+	Long: "This commline tools will help you manage your meetings.",
 }
 
 func Execute() {
