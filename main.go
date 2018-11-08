@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/owtotwo/agenda/cmd"
 
 func main() {
-    fmt.Printf("hello, agenda\n")
+	cmd.Execute()
 }
