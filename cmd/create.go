@@ -30,37 +30,41 @@ var ucreateCmd = &cobra.Command{
 		}
 		// get createUser information
 		createUsername, _ := cmd.Flags().GetString("username")
+		createPassword, _ := cmd.Flags().GetString("password")
 		createEmail, _ := cmd.Flags().GetString("email")
-		createPhone, _ := cmd.Flags().GetString("phone")
+		createPhone, _ := cmd.Flags().GetString("telephone")
 		// check whether username, password, email or phone empty
 		if createUsername == "" || createEmail == "" ||
 			createPhone == "" {
 			fmt.Fprintln(os.Stderr, "error : Username, Email or Phone is(are) empty")
 			os.Exit(1)
 		}
-		// get the password
-		var createPassword string
-		var prePassword string
-		times := 1
-		reader := bufio.NewReader(os.Stdin)
-		for {
-			if times == 1 {
-				fmt.Print("Please enter the password you want to create: ")
-				data, _, _ := reader.ReadLine()
-				createPassword = string(data)
-			} else {
-				fmt.Print("Please enter the password again: ")
-				data, _, _ := reader.ReadLine()
-				createPassword = string(data)
-				if createPassword == prePassword {
-					break
+
+		if createPassword == "" {
+			// get the password in running
+			var prePassword string
+			times := 1
+			reader := bufio.NewReader(os.Stdin)
+			for {
+				if times == 1 {
+					fmt.Print("Please enter the password you want to create: ")
+					data, _, _ := reader.ReadLine()
+					createPassword = string(data)
 				} else {
-					fmt.Println("The two passwords entered are not consistent. \nPlease restart setting password.")
+					fmt.Print("Please enter the password again: ")
+					data, _, _ := reader.ReadLine()
+					createPassword = string(data)
+					if createPassword == prePassword {
+						break
+					} else {
+						fmt.Println("The two passwords entered are not consistent. \nPlease restart setting password.")
+					}
 				}
+				times *= -1
+				prePassword = createPassword
 			}
-			times *= -1
-			prePassword = createPassword
 		}
+		
 		// check whether User is registed
 		ok = Service.UserRegister(createUsername, createPassword, createEmail, createPhone)
 		if ok == false {
@@ -160,8 +164,10 @@ func init() {
 	userCmd.AddCommand(ucreateCmd)
 	meetingCmd.AddCommand(mcreateCmd)
 
+	// agenda register -uUserName –password pass –email=a@xxx.com
 	ucreateCmd.Flags().StringP("username", "u", "", "Create Username")
+	ucreateCmd.Flags().StringP("password", "p", "", "Create Password")
 	ucreateCmd.Flags().StringP("email", "e", "", "Create Email")
-	ucreateCmd.Flags().StringP("phone", "p", "", "Create Phone")
+	ucreateCmd.Flags().StringP("telephone", "t", "", "Create Telephone")
 	mcreateCmd.Flags().StringVarP(&meetingName, "name", "", "", "Name for meeting you want to create.")
 }
