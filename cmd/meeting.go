@@ -6,8 +6,6 @@ import (
 
 var meetingName string
 var isDelete bool
-var startTime string
-var endTime string
 
 var meetingCmd = &cobra.Command{
 	Use:   "meeting",
